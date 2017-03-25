@@ -1,5 +1,7 @@
 package com.example.arifinfirdaus.cato;
 
+import android.app.Dialog;
+import android.graphics.Camera;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,11 +13,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity
@@ -26,7 +33,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        if (isGoogleServicesAvailable()) {
+            Toast.makeText(this, "google service tersedia di device Anda", Toast.LENGTH_LONG).show();
+            setContentView(R.layout.activity_main);
+            initMap();
+        } else {
+            // No Google Maps Layout
+            Toast.makeText(this, "Google service tidak ditemukan pada perangkat Anda", Toast.LENGTH_LONG).show();
+            setContentView(R.layout.activity_main_no_google_maps);
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -39,10 +56,26 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    }
+
+    private boolean isGoogleServicesAvailable() {
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        int isAvailable = api.isGooglePlayServicesAvailable(this);
+        if (isAvailable == ConnectionResult.SUCCESS) {
+            return true;
+        } else if (api.isUserResolvableError(isAvailable)) {
+            Dialog dialog = api.getErrorDialog(this, isAvailable, 0);
+            dialog.show();
+        } else {
+            Toast.makeText(this, "Can't connect to play services", Toast.LENGTH_LONG).show();
+        }
+        return false;
+    }
+
+    private void initMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
-
     }
 
 
@@ -61,9 +94,38 @@ public class MainActivity extends AppCompatActivity
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        goToLocation((int) 1.61803398875, (int) 1.61803398875);
+    }
+
+    private void goToLocation(int lat, int lng) {
+        LatLng destinationLatLng = new LatLng(lat, lng);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(destinationLatLng);
+
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(destinationLatLng)
+                .title(mMap.getCameraPosition().toString());
+
+        mMap.addMarker(markerOptions);
+        mMap.moveCamera(cameraUpdate);
+    }
+
+    private void goToLocation(int lat, int lng, float zoom) {
+        LatLng latLng = new LatLng(lat, lng);
+        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("some place");
+        mMap.addMarker(markerOptions);
+
+        CircleOptions circleOptions = new CircleOptions()
+                .clickable(true)
+                .radius(4)
+                .center(latLng);
+        mMap.addCircle(circleOptions);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
+        mMap.moveCamera(cameraUpdate);
     }
 
     @Override
