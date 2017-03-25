@@ -7,4 +7,25 @@
         android:orderInCategory="100"
         android:title="Cari"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/map_type_normal"
+        android:orderInCategory="100"
+        android:title="@string/map_type_normal"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/map_type_terrain"
+        android:orderInCategory="100"
+        android:title="@string/map_type_terrain"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/map_type_satellite"
+        android:orderInCategory="100"
+        android:title="@string/map_type_satellite"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/map_type_hybrid"
+        android:orderInCategory="100"
+        android:title="@string/map_type_hybrid"
+        app:showAsAction="never" />
 </menu>
