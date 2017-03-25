@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -205,11 +206,26 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            Toast.makeText(this, "unsupported yet", Toast.LENGTH_SHORT).show();
-            return true;
+        switch (id) {
+            case R.id.action_search:
+                Toast.makeText(this, "unsupported yet", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.map_type_normal:
+                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                break;
+            case R.id.map_type_terrain:
+                mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                break;
+            case R.id.map_type_satellite:
+                mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                break;
+            case R.id.map_type_hybrid:
+                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                break;
+            default:
+                break;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
