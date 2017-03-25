@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "855302635945",
+    "firebase_url": "https://cato-ffeb9.firebaseio.com",
+    "project_id": "cato-ffeb9",
+    "storage_bucket": "cato-ffeb9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855302635945:android:04167d5c29492e77",
+        "android_client_info": {
+          "package_name": "com.example.arifinfirdaus.cato"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855302635945-e332d66muunvht1t67697q6a4a9c9b5g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2xWlbI_FX5wBvn8V1aXN0pS9GdPIDVO8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
