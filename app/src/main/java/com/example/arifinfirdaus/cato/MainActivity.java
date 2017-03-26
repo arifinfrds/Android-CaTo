@@ -1,11 +1,16 @@
 package com.example.arifinfirdaus.cato;
 
 import android.app.Dialog;
-import android.graphics.Camera;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,27 +25,33 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
-        View.OnClickListener {
+import com.google.android.gms.location.LocationServices;
 
-    private GoogleMap mMap;
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+
+    private GoogleMap googleMap;
     private EditText etCariToko;
     private Button btnCariLokasi;
 
+    private GoogleApiClient googleApiClient;
+
+    // MARK: - AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +85,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    // MARK : - View.OnClickListener
     @Override
     public void onClick(View v) {
 
@@ -98,9 +110,7 @@ public class MainActivity extends AppCompatActivity
 
 
     public void geoLocate(View view) throws IOException {
-
         String location = etCariToko.getText().toString();
-
         Geocoder gc = new Geocoder(this);
         List<Address> list = gc.getFromLocationName(location, 1);
         Address address = list.get(0);
@@ -113,7 +123,6 @@ public class MainActivity extends AppCompatActivity
 
         float zoomLevel = 15;
         goToLocationZoom(lat, lng, zoomLevel);
-
     }
 
 
@@ -138,7 +147,6 @@ public class MainActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -149,17 +157,85 @@ public class MainActivity extends AppCompatActivity
      * installed Google Play services and returned to the app.
      */
 
+    // MARK : - OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        this.googleMap = googleMap;
+        setupUserLocation();
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-        goToLocation((int) 1.61803398875, (int) 1.61803398875);
     }
+
+    private void setupUserLocation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+        }
+        googleMap.setMyLocationEnabled(true);
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        googleApiClient.connect();
+    }
+
+
+    private LocationRequest locationRequest;
+
+    // MARK : GoogleApiClient.ConnectionCallbacks
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_LOW_POWER)
+                .setInterval(1000);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+    }
+
+    // MARK : - GoogleApiClient.ConnectionCallbacks
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    // MARK : - GoogleApiClient.OnConnectionFailedListener
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    // MARK : - LocationListener
+    @Override
+    public void onLocationChanged(Location location) {
+        if (location == null) {
+            Toast.makeText(this, "Tidak dapat mendapatkan lokasi sekarang", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Dapat lokasi Anda sekarang", Toast.LENGTH_SHORT).show();
+            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latlng, 15f);
+            googleMap.animateCamera(cameraUpdate);
+        }
+    }
+
 
     private void goToLocation(int lat, int lng) {
         LatLng destinationLatLng = new LatLng(lat, lng);
@@ -167,20 +243,21 @@ public class MainActivity extends AppCompatActivity
 
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(destinationLatLng)
-                .title(mMap.getCameraPosition().toString());
+                .title(googleMap.getCameraPosition().toString());
 
-        mMap.addMarker(markerOptions);
-        mMap.moveCamera(cameraUpdate);
+        googleMap.addMarker(markerOptions);
+        googleMap.moveCamera(cameraUpdate);
     }
 
     private void goToLocationZoom(double lat, double lng, float zoomLevel) {
         LatLng destinationLatLng = new LatLng(lat, lng);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(destinationLatLng, zoomLevel);
-        mMap.moveCamera(cameraUpdate);
+        googleMap.moveCamera(cameraUpdate);
     }
 
     // End of Maps method --------------------------------------------------------------------------
 
+    // MARK: - AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -191,6 +268,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // MARK: - AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -199,6 +277,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    // MARK: - AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -211,38 +290,42 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, "unsupported yet", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.map_type_normal:
-                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 break;
             case R.id.map_type_terrain:
-                mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
                 break;
             case R.id.map_type_satellite:
-                mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                 break;
             case R.id.map_type_hybrid:
-                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 break;
             default:
                 break;
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 
+    // MARK : - NavigationView.OnNavigationItemSelectedListener
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_stuff_adround_you) {
-            // Handle the camera action
-            Toast.makeText(this, "stuff around you", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_favorite_place) {
-            Toast.makeText(this, "favorite place", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_logout) {
-            Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show();
+        switch (id) {
+            case R.id.nav_stuff_adround_you:
+                Toast.makeText(this, "stuff around you", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_favorite_place:
+                Toast.makeText(this, "favorite place", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_logout:
+                Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
