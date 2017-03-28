@@ -12,5 +12,6 @@
     <string name="map_type_terrain">Terrain</string>
     <string name="map_type_satellite">Satellite</string>
     <string name="map_type_hybrid">Hybrid</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
 
 </resources>
