@@ -6,5 +6,7 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="custom_nav_header_vertical_spacing">8dp</dimen>
+
     <dimen name="sign_in_compomponents_margin_content">40dp</dimen>
 </resources>

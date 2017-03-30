@@ -321,8 +321,17 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.nav_favorite_place:
                 Toast.makeText(this, "favorite place", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.nav_profile:
+                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.nav_logout:
                 Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_about:
+                Toast.makeText(this, "about", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_feedback:
+                Toast.makeText(this, "feedback", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
