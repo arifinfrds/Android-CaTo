@@ -11,18 +11,25 @@
             android:icon="@drawable/ic_stars_black_24dp"
             android:title="Favorite place" />
         <item
+            android:id="@+id/nav_profile"
+            android:title="Profile" />
+        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:title="Logout" />
     </group>
 
-    <!--<item android:title="Other">-->
-    <!--<menu>-->
-    <!--<item-->
-    <!--android:id="@+id/nav_logout"-->
-    <!--android:icon="@drawable/ic_menu_share"-->
-    <!--android:title="Logout" />-->
-    <!--</menu>-->
-    <!--</item>-->
+    <item android:title="Other">
+        <menu>
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@color/colorAccent"
+                android:title="About" />
+            <item
+                android:id="@+id/nav_feedback"
+                android:icon="@color/colorAccent"
+                android:title="Feedback" />
+        </menu>
+    </item>
 
 </menu>
