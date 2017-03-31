@@ -1,6 +1,7 @@
 package com.example.arifinfirdaus.cato;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -319,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements
                 Toast.makeText(this, "stuff around you", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_favorite_place:
-                Toast.makeText(this, "favorite place", Toast.LENGTH_SHORT).show();
+                toFavoritePlaceActivity();
                 break;
             case R.id.nav_profile:
                 Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
@@ -341,4 +342,11 @@ public class MainActivity extends AppCompatActivity implements
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    //MARK : - Navigation
+    private void toFavoritePlaceActivity() {
+        Intent intent = new Intent(MainActivity.this, FavoritePlaceListActivity.class);
+        startActivity(intent);
+    }
+
 }
