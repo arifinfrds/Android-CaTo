@@ -1,8 +1,25 @@
+//        Copyright 2015 Miguel Catalan Bañuls
+//
+//        Licensed under the Apache License, Version 2.0 (the "License");
+//        you may not use this file except in compliance with the License.
+//        You may obtain a copy of the License at
+//
+//        http://www.apache.org/licenses/LICENSE-2.0
+//
+//        Unless required by applicable law or agreed to in writing, software
+//        distributed under the License is distributed on an "AS IS" BASIS,
+//        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//        See the License for the specific language governing permissions and
+//        limitations under the License.
+
+// https://github.com/MiguelCatalan/MaterialSearchView
+
 package com.example.arifinfirdaus.cato;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -20,8 +37,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -41,16 +56,23 @@ import java.io.IOException;
 import java.util.List;
 
 import com.google.android.gms.location.LocationServices;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public class MainActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        NavigationView.OnNavigationItemSelectedListener,
+        OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener,
+        MaterialSearchView.OnQueryTextListener,
+        MaterialSearchView.SearchViewListener {
 
     private GoogleMap googleMap;
-    private EditText etCariToko;
-    private Button btnCariLokasi;
 
     private GoogleApiClient googleApiClient;
+
+    private MaterialSearchView searchView;
+    private String querySearch;
 
     // MARK: - AppCompatActivity
     @Override
@@ -79,39 +101,33 @@ public class MainActivity extends AppCompatActivity implements
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        etCariToko = (EditText) findViewById(R.id.et_input_cari_toko);
-
-        btnCariLokasi = (Button) findViewById(R.id.btn_cari_lokasi);
-        btnCariLokasi.setOnClickListener(this);
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        searchView.setHint("Cari toko disini...");
+        searchView.setHintTextColor(Color.GRAY);
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnSearchViewListener(this);
 
     }
-
-    // MARK : - View.OnClickListener
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.btn_cari_lokasi:
-                if (etCariToko.getText().equals(null) || etCariToko.getText().toString().equals("")) {
-                    Toast.makeText(this, "Mohon input pencarian dengan benar", Toast.LENGTH_SHORT).show();
-                    break;
-                } else {
-                    try {
-                        Toast.makeText(this, "Mencari", Toast.LENGTH_SHORT).show();
-                        geoLocate(v);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
 
     public void geoLocate(View view) throws IOException {
-        String location = etCariToko.getText().toString();
+        // String location = etCariToko.getText().toString();
+        String location = this.querySearch;
+        Geocoder gc = new Geocoder(this);
+        List<Address> list = gc.getFromLocationName(location, 1);
+        Address address = list.get(0);
+        String locality = address.getLocality();
+
+        Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
+
+        double lat = address.getLatitude();
+        double lng = address.getLongitude();
+
+        float zoomLevel = 15;
+        goToLocationZoom(lat, lng, zoomLevel);
+    }
+
+    public void geoLocate(String hasilSearch) throws IOException {
+        String location = hasilSearch;
         Geocoder gc = new Geocoder(this);
         List<Address> list = gc.getFromLocationName(location, 1);
         Address address = list.get(0);
@@ -258,12 +274,55 @@ public class MainActivity extends AppCompatActivity implements
 
     // End of Maps method --------------------------------------------------------------------------
 
+
+    // MARK : - MaterialSearchView.OnQueryTextListener
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        //Do some magic
+        Toast.makeText(MainActivity.this, "query : " + query, Toast.LENGTH_SHORT).show();
+        querySearch = query;
+        // geoLocate(query);
+        if (!query.equals(null) || !query.equals("")) {
+            try {
+                geoLocate(querySearch);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(MainActivity.this, "Mohon lengkapi keyword pencarian Anda", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    // MARK : - MaterialSearchView.OnQueryTextListener
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    // MARK : - MaterialSearchView.SearchViewListener
+    @Override
+    public void onSearchViewShown() {
+
+    }
+
+    // MARK : - MaterialSearchView.SearchViewListener
+    @Override
+    public void onSearchViewClosed() {
+
+    }
+
+
     // MARK: - AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        }
+
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
         } else {
             super.onBackPressed();
         }
@@ -274,6 +333,9 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
 
         return true;
     }
@@ -343,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 
-    //MARK : - Navigation
+    // MARK : - Navigation
     private void toFavoritePlaceActivity() {
         Intent intent = new Intent(MainActivity.this, FavoritePlaceListActivity.class);
         startActivity(intent);
