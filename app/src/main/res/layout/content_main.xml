@@ -9,7 +9,6 @@
     tools:showIn="@layout/app_bar_main">
 
     <LinearLayout
-        android:padding="8dp"
         android:id="@+id/maps_input_and_button_container"
         android:layout_width="368dp"
         android:layout_height="wrap_content"
@@ -18,22 +17,22 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/et_input_cari_toko"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="cari toko..."
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <!--<EditText-->
+            <!--android:id="@+id/et_input_cari_toko"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="cari toko..."-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-        <Button
-            android:id="@+id/btn_cari_lokasi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Cari" />
+        <!--<Button-->
+            <!--android:id="@+id/btn_cari_lokasi"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:text="Cari" />-->
 
 
     </LinearLayout>

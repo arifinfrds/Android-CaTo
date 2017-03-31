@@ -16,5 +16,7 @@
     <string name="title_activity_favorite_place">Favorite Place</string>
     <string name="title_item_list">Favorite Place</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="search_hint_pembeli">Cari toko disini...</string>
+
 
 </resources>
