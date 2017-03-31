@@ -36,7 +36,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -53,7 +52,20 @@
         <activity
             android:name=".SignInActivity"
             android:label="@string/title_activity_sign_in"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FavoritePlaceListActivity"
+            android:label="@string/title_item_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".FavoritePlaceDetailActivity"
+            android:label="@string/title_item_detail"
+            android:parentActivityName=".FavoritePlaceListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.arifinfirdaus.cato.FavoritePlaceListActivity" />
+        </activity>
     </application>
 
 </manifest>
