@@ -9,27 +9,37 @@
     tools:showIn="@layout/activity_penjual_pembeli">
 
     <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/logo"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="120dp"
-        android:background="@color/colorPrimary"
+        android:background="@mipmap/ic_launcher_round"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_pembeli"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:background="@color/colorPrimary"
-        android:text="< Pembeli"
+        android:text="Pembeli"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,12 +47,13 @@
 
     <Button
         android:id="@+id/btn_penjual"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:background="@color/colorPrimary"
-        android:text="Penjual >"
+        android:text="Penjual"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

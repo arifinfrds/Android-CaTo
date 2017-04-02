@@ -16,7 +16,7 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_penjual_pembeli);
 
         btnPenjual = (Button) findViewById(R.id.btn_penjual);
         btnPembeli = (Button) findViewById(R.id.btn_pembeli);
