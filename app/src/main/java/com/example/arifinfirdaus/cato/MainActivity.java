@@ -50,6 +50,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -126,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements
         goToLocationZoom(lat, lng, zoomLevel);
     }
 
+    private Marker marker;
+
     public void geoLocate(String hasilSearch) throws IOException {
         String location = hasilSearch;
         Geocoder gc = new Geocoder(this);
@@ -140,6 +143,18 @@ public class MainActivity extends AppCompatActivity implements
 
         float zoomLevel = 15;
         goToLocationZoom(lat, lng, zoomLevel);
+
+        // cek apakah sudah ada marker
+        if (marker != null) {
+            marker.remove();
+        }
+
+        // add marker
+        MarkerOptions markerOptions = new MarkerOptions()
+                .title("Toko x")
+                .snippet("buka pukul 9 pagi sampai 10 malam")
+                .position(new LatLng(lat, lng));
+        marker = googleMap.addMarker(markerOptions);
     }
 
 
@@ -197,12 +212,12 @@ public class MainActivity extends AppCompatActivity implements
         }
         googleMap.setMyLocationEnabled(true);
 
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        googleApiClient.connect();
+//        googleApiClient = new GoogleApiClient.Builder(this)
+//                .addApi(LocationServices.API)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .build();
+//        googleApiClient.connect();
     }
 
 
@@ -270,6 +285,8 @@ public class MainActivity extends AppCompatActivity implements
         LatLng destinationLatLng = new LatLng(lat, lng);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(destinationLatLng, zoomLevel);
         googleMap.moveCamera(cameraUpdate);
+
+
     }
 
     // End of Maps method --------------------------------------------------------------------------
