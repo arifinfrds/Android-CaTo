@@ -1,5 +1,6 @@
 package com.example.arifinfirdaus.cato;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-public class PenjualPembeliActivity extends AppCompatActivity implements View.OnClickListener {
+public class PenjualPembeliActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     private Button btnPenjual;
     private Button btnPembeli;
@@ -23,6 +24,8 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
 
         btnPenjual.setOnClickListener(this);
         btnPembeli.setOnClickListener(this);
+
+        btnPembeli.setOnLongClickListener(this);
 
     }
 
@@ -39,5 +42,19 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        int id = v.getId();
+        if (id == R.id.btn_pembeli) {
+            toMainActivity();
+        }
+        return false;
+    }
+
+    private void toMainActivity() {
+        Intent intent = new Intent(PenjualPembeliActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
