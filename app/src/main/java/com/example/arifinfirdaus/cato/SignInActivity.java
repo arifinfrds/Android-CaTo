@@ -1,5 +1,6 @@
 package com.example.arifinfirdaus.cato;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -58,6 +59,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.btn_create_account:
                 Toast.makeText(this, "btn_create_account", Toast.LENGTH_SHORT).show();
+                toSignInActivity();
                 break;
             case R.id.btn_forgot_password:
                 Toast.makeText(this, "btn_forgot_password", Toast.LENGTH_SHORT).show();
@@ -65,5 +67,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             default:
                 break;
         }
+    }
+
+    private void toSignInActivity() {
+        Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
+        startActivity(intent);
     }
 }

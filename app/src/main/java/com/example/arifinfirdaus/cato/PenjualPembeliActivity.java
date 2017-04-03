@@ -38,10 +38,16 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.btn_pembeli:
                 Toast.makeText(this, "btn_pembeli", Toast.LENGTH_SHORT).show();
+                toSignInActivity();
                 break;
             default:
                 break;
         }
+    }
+
+    private void toSignInActivity() {
+        Intent intent = new Intent(PenjualPembeliActivity.this, SignInActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -57,4 +63,8 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
         Intent intent = new Intent(PenjualPembeliActivity.this, MainActivity.class);
         startActivity(intent);
     }
+
+
+
+
 }
