@@ -155,6 +155,25 @@ public class MainActivity extends AppCompatActivity implements
                 .snippet("buka pukul 9 pagi sampai 10 malam")
                 .position(new LatLng(lat, lng));
         marker = googleMap.addMarker(markerOptions);
+
+//        // modify
+//        // misal ambil 3 alamat
+//        int tokoDatabaseCount = 3;
+//        LatLng[] latLngs = new LatLng[tokoDatabaseCount];
+//        for (int i = 0; i < tokoDatabaseCount; i++) {
+//            address = list.get(i); // ambil tiap adress
+//            latLngs[i] = new LatLng(address.getLatitude(), address.getLongitude()); // ambil tiap2 lat lng
+//        }
+//        // add markers
+//        MarkerOptions[] markerOptionses = new MarkerOptions[tokoDatabaseCount];
+//        for (int i = 0; i < tokoDatabaseCount; i++) {
+//            markerOptionses[i] = new MarkerOptions()
+//                    .title("asdfads")
+//                    .snippet("asdfasdfasdfasd")
+//                    .position(latLngs[i]);
+//        }
+
+
     }
 
 
