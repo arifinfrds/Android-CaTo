@@ -18,7 +18,7 @@
     <string name="title_item_detail">Item Detail</string>
     <string name="search_hint_pembeli">Cari toko disini...</string>
     <string name="title_activity_sign_up">SignUp</string>
-    <string name="title_activity_penjual_pembeli">PenjualPembeli</string>
+    <string name="title_activity_penjual_pembeli">@string/app_name</string>
 
 
 </resources>
