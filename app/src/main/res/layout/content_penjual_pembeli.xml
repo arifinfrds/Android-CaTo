@@ -8,14 +8,14 @@
     tools:context="com.example.arifinfirdaus.cato.PenjualPembeliActivity"
     tools:showIn="@layout/activity_penjual_pembeli">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/background1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--<ImageView-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:background="@drawable/background1"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
 
     <ImageView
         android:id="@+id/logo"
