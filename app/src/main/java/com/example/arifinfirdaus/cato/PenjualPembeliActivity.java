@@ -29,6 +29,11 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
 
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
     // click view
     @Override
     public void onClick(View v) {
@@ -37,8 +42,7 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
                 Toast.makeText(this, "btn_penjual", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_pembeli:
-                Toast.makeText(this, "btn_pembeli", Toast.LENGTH_SHORT).show();
-                toSignInActivity();
+                toMainActivity();
                 break;
             default:
                 break;
@@ -63,8 +67,6 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
         Intent intent = new Intent(PenjualPembeliActivity.this, MainActivity.class);
         startActivity(intent);
     }
-
-
 
 
 }
