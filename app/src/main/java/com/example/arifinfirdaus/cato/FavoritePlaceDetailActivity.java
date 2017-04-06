@@ -133,7 +133,7 @@ public class FavoritePlaceDetailActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_favorite) {
-            Toast.makeText(this, "Toko ini masuk daftar favorit Anda", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Penjual ini masuk daftar favorit Anda", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
