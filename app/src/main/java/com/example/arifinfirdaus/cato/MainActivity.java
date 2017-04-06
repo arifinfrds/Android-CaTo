@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements
 
         // add marker
         MarkerOptions markerOptions = new MarkerOptions()
-                .title("Toko x")
+                .title("Penjual x")
                 .snippet("buka pukul 9 pagi sampai 10 malam")
                 .position(new LatLng(lat, lng));
         marker = googleMap.addMarker(markerOptions);

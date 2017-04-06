@@ -63,7 +63,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d("onComplete", "createUserWithEmail:onComplete:" + task.isSuccessful());
-                            Toast.makeText(SignUpActivity.this, "User created", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "BaseUser created", Toast.LENGTH_SHORT).show();
                             finish();
 
                             // If sign in fails, display a message to the user. If sign in succeeds

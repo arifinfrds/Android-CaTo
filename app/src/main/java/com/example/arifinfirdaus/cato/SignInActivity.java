@@ -66,11 +66,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
+                    // BaseUser is signed in
                     toPenjualPembeliActivity();
                     Log.d("onAuthStateChanged", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
-                    // User is signed out
+                    // BaseUser is signed out
                     Log.d("onAuthStateChanged", "onAuthStateChanged:signed_out");
                 }
                 // ...
