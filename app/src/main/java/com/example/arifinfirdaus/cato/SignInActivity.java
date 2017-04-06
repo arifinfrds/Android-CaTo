@@ -58,15 +58,19 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(this, "btn_sign_in", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_create_account:
-                Toast.makeText(this, "btn_create_account", Toast.LENGTH_SHORT).show();
                 toSignInActivity();
                 break;
             case R.id.btn_forgot_password:
-                Toast.makeText(this, "btn_forgot_password", Toast.LENGTH_SHORT).show();
+                toForgotPasswordActivity();
                 break;
             default:
                 break;
         }
+    }
+
+    private void toForgotPasswordActivity() {
+        Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
+        startActivity(intent);
     }
 
     private void toSignInActivity() {
