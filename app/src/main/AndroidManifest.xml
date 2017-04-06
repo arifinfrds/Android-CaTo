@@ -81,6 +81,10 @@
         <activity
             android:name=".ForgotPasswordActivity"
             android:label="@string/title_activity_forgot_password"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProfilePembeliScrollingActivity"
+            android:label="@string/title_activity_profile_pembeli_scrolling"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

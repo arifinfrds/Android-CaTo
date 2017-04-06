@@ -453,7 +453,7 @@ public class MainActivity extends AppCompatActivity implements
                 toFavoritePlaceActivity();
                 break;
             case R.id.nav_profile:
-                Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+                toProfilePembeliActivity();
                 break;
             case R.id.nav_logout:
                 handleLogout();
@@ -471,6 +471,11 @@ public class MainActivity extends AppCompatActivity implements
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void toProfilePembeliActivity() {
+        Intent intent = new Intent(MainActivity.this, ProfilePembeliScrollingActivity.class);
+        startActivity(intent);
     }
 
     private void toSignInActivity() {
