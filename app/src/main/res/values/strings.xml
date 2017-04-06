@@ -19,6 +19,7 @@
     <string name="search_hint_pembeli">Cari toko disini...</string>
     <string name="title_activity_sign_up">SignUp</string>
     <string name="title_activity_penjual_pembeli">@string/app_name</string>
+    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
 
 
 </resources>
