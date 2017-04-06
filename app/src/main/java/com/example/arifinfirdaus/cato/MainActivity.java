@@ -20,6 +20,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -39,6 +40,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.constant.AvoidType;
+import com.akexorcist.googledirection.model.Direction;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -155,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements
                 .snippet("buka pukul 9 pagi sampai 10 malam")
                 .position(new LatLng(lat, lng));
         marker = googleMap.addMarker(markerOptions);
+
 
 //        // modify
 //        // misal ambil 3 alamat
@@ -321,6 +327,7 @@ public class MainActivity extends AppCompatActivity implements
         if (!query.equals(null) || !query.equals("")) {
             try {
                 geoLocate(querySearch);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -328,6 +335,30 @@ public class MainActivity extends AppCompatActivity implements
             Toast.makeText(MainActivity.this, "Mohon lengkapi keyword pencarian Anda", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+    private void directionTest() {
+        String mapsDirectionApiKey = "AIzaSyAAbzGcsLLm6gEt1ZpQlv2P6B3u5D8-reQ";
+        GoogleDirection.withServerKey(mapsDirectionApiKey)
+                .from(new LatLng(37.7681994, -122.444538))
+                .to(new LatLng(37.7749003, -122.4034934))
+                .avoid(AvoidType.FERRIES)
+                .avoid(AvoidType.HIGHWAYS)
+                .execute(new DirectionCallback() {
+                    @Override
+                    public void onDirectionSuccess(Direction direction, String rawBody) {
+                        if (direction.isOK()) {
+                            // Do something
+                        } else {
+                            // Do something
+                        }
+                    }
+
+                    @Override
+                    public void onDirectionFailure(Throwable t) {
+                        // Do something
+                    }
+                });
     }
 
     // MARK : - MaterialSearchView.OnQueryTextListener
