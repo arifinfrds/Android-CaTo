@@ -62,6 +62,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.auth.FirebaseAuth;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public class MainActivity extends AppCompatActivity implements
@@ -455,7 +456,7 @@ public class MainActivity extends AppCompatActivity implements
                 Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_logout:
-                Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show();
+                handleLogout();
                 break;
             case R.id.nav_about:
                 Toast.makeText(this, "about", Toast.LENGTH_SHORT).show();
@@ -470,6 +471,28 @@ public class MainActivity extends AppCompatActivity implements
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void toSignInActivity() {
+        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+        startActivity(intent);
+    }
+
+    private void handleLogout() {
+        FirebaseAuth.getInstance().signOut();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAndRemoveTask();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            this.finishAffinity();
+        }
+
+
+//        /** on your logout method:**/
+//        Intent broadcastIntent = new Intent();
+//        broadcastIntent.setAction("com.package.ACTION_LOGOUT");
+//        sendBroadcast(broadcastIntent);
     }
 
     // MARK : - Navigation
