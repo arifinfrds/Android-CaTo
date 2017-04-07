@@ -34,6 +34,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -217,6 +218,7 @@ public class MainPembeliActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
         setupUserLocation();
+        directionTest();
 
     }
 
@@ -336,8 +338,12 @@ public class MainPembeliActivity extends AppCompatActivity implements
     }
 
     private void directionTest() {
-        String mapsDirectionApiKey = "AIzaSyAAbzGcsLLm6gEt1ZpQlv2P6B3u5D8-reQ";
-        GoogleDirection.withServerKey(mapsDirectionApiKey)
+
+        String newMapsDirectionAPiKey = "AIzaSyApn04DGO6TPYnSNCrgiX3ET4L-4B-fhJQ";
+        String link = "https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=";
+        String linkWithApiKey = link + newMapsDirectionAPiKey;
+        Toast.makeText(this, "directionTest()", Toast.LENGTH_SHORT).show();
+        GoogleDirection.withServerKey(newMapsDirectionAPiKey)
                 .from(new LatLng(37.7681994, -122.444538))
                 .to(new LatLng(37.7749003, -122.4034934))
                 .avoid(AvoidType.FERRIES)
