@@ -8,4 +8,111 @@
     tools:context="com.example.arifinfirdaus.cato.EditProfileActivity"
     tools:showIn="@layout/activity_edit_profile">
 
+    <ImageView
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+        android:layout_width="142dp"
+        android:layout_height="55dp"
+        android:src="@drawable/logo"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <EditText
+        android:id="@+id/et_edit_store_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginLeft="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginRight="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginStart="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginTop="105dp"
+        android:hint="store name"
+        android:inputType="textEmailAddress"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_edit_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginLeft="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginRight="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginStart="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginTop="8dp"
+        android:hint="description"
+        android:inputType="textEmailAddress"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_edit_store_name" />
+
+    <EditText
+        android:id="@+id/et_edit_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginLeft="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginRight="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginStart="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginTop="8dp"
+        android:hint="address"
+        android:inputType="textEmailAddress"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_edit_description" />
+
+    <EditText
+        android:id="@+id/et_edit_contact"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginLeft="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginRight="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginStart="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginTop="8dp"
+        android:hint="contact"
+        android:inputType="textEmailAddress"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_edit_address" />
+
+    <EditText
+        android:id="@+id/et_edit_office_hours"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginLeft="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginRight="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginStart="@dimen/sign_in_compomponents_margin_content"
+        android:layout_marginTop="8dp"
+        android:hint="office hours"
+        android:inputType="textEmailAddress"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_edit_contact" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="71dp"
+        android:background="@color/colorPrimary"
+        android:text="SAVE"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_edit_office_hours" />
+
 </android.support.constraint.ConstraintLayout>

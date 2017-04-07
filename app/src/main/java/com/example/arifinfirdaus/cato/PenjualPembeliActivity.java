@@ -39,7 +39,7 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_penjual:
-                Toast.makeText(this, "btn_penjual", Toast.LENGTH_SHORT).show();
+                toRegistration();
                 break;
             case R.id.btn_pembeli:
                 toMainActivity();
@@ -65,6 +65,11 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
 
     private void toMainActivity() {
         Intent intent = new Intent(PenjualPembeliActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void toRegistration(){
+        Intent intent = new Intent(PenjualPembeliActivity.this, RegistrationActivity.class);
         startActivity(intent);
     }
 
