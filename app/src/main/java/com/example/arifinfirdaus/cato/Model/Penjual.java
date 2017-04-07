@@ -41,7 +41,7 @@ public class Penjual extends BaseUser {
 
 
     @Override
-    protected String getUid() {
+    public String getUid() {
         return super.getUid();
     }
 
@@ -56,7 +56,7 @@ public class Penjual extends BaseUser {
     }
 
     @Override
-    protected String getTipeUser() {
+    public String getTipeUser() {
         return super.getTipeUser();
     }
 

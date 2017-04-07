@@ -11,4 +11,9 @@
     <dimen name="item_width">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="custom_app_bar_height">225dp</dimen>
+
+    <dimen name="standart_components_margin">8dp</dimen>
+    <dimen name="standart_text_to_button_margin">16dp</dimen>
+    <dimen name="standart_compomenents_margin_small">4dp</dimen>
+    <dimen name="material_divider_height">1dp</dimen>
 </resources>

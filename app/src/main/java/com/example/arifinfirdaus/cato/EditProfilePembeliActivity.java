@@ -1,6 +1,5 @@
 package com.example.arifinfirdaus.cato;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,28 +9,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
-public class ProfilePembeliScrollingActivity extends AppCompatActivity {
+public class EditProfilePembeliActivity extends AppCompatActivity {
 
-    private TextView tv_nama_user;
-
+    private EditText et_edit_nama;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_pembeli_scrolling);
+        setContentView(R.layout.activity_edit_profile_pembeli);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -39,22 +27,9 @@ public class ProfilePembeliScrollingActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toEditProfilePembeliActivity();
-            }
-        });
+        et_edit_nama = (EditText) findViewById(R.id.et_edit_nama);
 
-        tv_nama_user = (TextView) findViewById(R.id.tv_nama_user);
-    }
-
-    // intent.putExtra(Const.KEY.NAMA_BARANG, tvNamaBarang.getText().toString());
-    private void toEditProfilePembeliActivity() {
-        Intent intent = new Intent(ProfilePembeliScrollingActivity.this, EditProfilePembeliActivity.class);
-        intent.putExtra(Const.KEY.NAMA_USER, tv_nama_user.getText().toString());
-        startActivity(intent);
-
+        getDataFromPreviousActivity();
     }
 
     @Override
@@ -72,4 +47,15 @@ public class ProfilePembeliScrollingActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void getDataFromPreviousActivity() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String nama = extras.getString(Const.KEY.NAMA_USER);
+
+            et_edit_nama.setText(nama);
+
+        }
+    }
+
 }

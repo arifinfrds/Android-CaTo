@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 
@@ -134,34 +138,57 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void handleSignIn() {
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
 
         // check null
-        if (email.matches("") || email.equals(null) || password.matches("") || password.equals("null") ||
-                password.length() <= 6) {
-            etEmail.setError("");
-            etPassword.setError("");
-        } else {
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("onComplete", "signInWithEmail:onComplete:" + task.isSuccessful());
-                            Toast.makeText(SignInActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-                            toPenjualPembeliActivity();
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
-                                Log.w("onComplete", "signInWithEmail:failed", task.getException());
-                                Toast.makeText(SignInActivity.this, "auth failed",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                            // ...
-                        }
-                    });
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            return;
         }
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (password.length() < 6) {
+            Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("onComplete", "signInWithEmail:onComplete:" + task.isSuccessful());
+                        Toast.makeText(SignInActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                        toPenjualPembeliActivity();
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+//                            Log.w("onComplete", "signInWithEmail:failed", task.getException());
+//                            Toast.makeText(SignInActivity.this, "auth failed",
+//                                    Toast.LENGTH_SHORT).show();
+
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthWeakPasswordException e) {
+                                etPassword.setError("password weak");
+                                etPassword.requestFocus();
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                etEmail.setError("invalid email");
+                                etEmail.requestFocus();
+                            } catch (FirebaseAuthUserCollisionException e) {
+                                etEmail.setError("Error user exist");
+                                etEmail.requestFocus();
+                            } catch (Exception e) {
+                                Log.e("TAG", e.getMessage());
+                            }
+                        }
+                        // ...
+                    }
+                });
+
     }
 
     private void toPenjualPembeliActivity() {
