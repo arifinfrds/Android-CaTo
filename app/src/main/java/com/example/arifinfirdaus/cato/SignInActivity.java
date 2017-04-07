@@ -1,5 +1,6 @@
 package com.example.arifinfirdaus.cato;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +140,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+
     private void handleSignIn() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
@@ -155,12 +159,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
+        showProgressDialog();
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("onComplete", "signInWithEmail:onComplete:" + task.isSuccessful());
                         Toast.makeText(SignInActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                        hideProgressDialog();
                         toPenjualPembeliActivity();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -204,5 +211,21 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private void toSignInActivity() {
         Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
         startActivity(intent);
+    }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Sign in...");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 }

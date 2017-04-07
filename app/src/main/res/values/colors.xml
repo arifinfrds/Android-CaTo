@@ -17,16 +17,31 @@
     <!--tabel percen ke hex-->
     <!--http://online.sfsu.edu/chrism/hexval.html-->
     <color name="dividerds">#1e000000</color>
+    <color name="framelayout_color">@color/white_50_percent</color>
+    <color name="white_50_percent">#D9E0E0E0</color>
 
     <color name="ios7_flat_green">#4CD964</color>
     <color name="ios7_flat_yellow">#FFDB4C</color>
     <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color>
 
     <color name="teal_500">#009688</color>
     <color name="teal_700">#00796B</color>
     <color name="teal_300">#4DB6AC</color>
 
     <color name="divider_color">#1E000000</color>
+
+
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="background">#e5e5e5</color>
+    <color name="half_black">#808080</color>
+    <color name="pure_white">#fafafa</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="pink">#e91e63</color>
+    <color name="pink_pressed">#ec407a</color>
+    <color name="blue_semi_transparent">#805677fc</color>
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
+
+    <color name="fab_home_pressed">@color/A400</color>
+    <color name="A400">#F50057</color>
 
 </resources>
