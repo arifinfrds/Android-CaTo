@@ -234,7 +234,7 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
     }
 
     private void toMainActivity() {
-        Intent intent = new Intent(PenjualPembeliActivity.this, MainActivity.class);
+        Intent intent = new Intent(PenjualPembeliActivity.this, MainPembeliActivity.class);
         startActivity(intent);
     }
 

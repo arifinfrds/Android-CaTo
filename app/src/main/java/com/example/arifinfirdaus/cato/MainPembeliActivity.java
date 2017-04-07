@@ -20,7 +20,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Path;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -54,6 +53,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -65,7 +65,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainPembeliActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -157,11 +157,10 @@ public class MainActivity extends AppCompatActivity implements
 
         // add marker
         MarkerOptions markerOptions = new MarkerOptions()
-                .title("Penjual x")
-                .snippet("buka pukul 9 pagi sampai 10 malam")
+                .title(address.getAddressLine(0))
+                .snippet("Buka jam 8 - 9 Pagi")
                 .position(new LatLng(lat, lng));
         marker = googleMap.addMarker(markerOptions);
-
 
 //        // modify
 //        // misal ambil 3 alamat
@@ -179,8 +178,6 @@ public class MainActivity extends AppCompatActivity implements
 //                    .snippet("asdfasdfasdfasd")
 //                    .position(latLngs[i]);
 //        }
-
-
     }
 
 
@@ -322,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onQueryTextSubmit(String query) {
         //Do some magic
-        Toast.makeText(MainActivity.this, "query : " + query, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainPembeliActivity.this, "query : " + query, Toast.LENGTH_SHORT).show();
         querySearch = query;
         // geoLocate(query);
         if (!query.equals(null) || !query.equals("")) {
@@ -333,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(MainActivity.this, "Mohon lengkapi keyword pencarian Anda", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainPembeliActivity.this, "Mohon lengkapi keyword pencarian Anda", Toast.LENGTH_SHORT).show();
         }
         return false;
     }
@@ -474,12 +471,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void toProfilePembeliActivity() {
-        Intent intent = new Intent(MainActivity.this, ProfilePembeliScrollingActivity.class);
+        Intent intent = new Intent(MainPembeliActivity.this, ProfilePembeliScrollingActivity.class);
         startActivity(intent);
     }
 
     private void toSignInActivity() {
-        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+        Intent intent = new Intent(MainPembeliActivity.this, SignInActivity.class);
         startActivity(intent);
     }
 
@@ -502,10 +499,9 @@ public class MainActivity extends AppCompatActivity implements
 
     // MARK : - Navigation
     private void toFavoritePlaceActivity() {
-        Intent intent = new Intent(MainActivity.this, FavoritePlaceListActivity.class);
+        Intent intent = new Intent(MainPembeliActivity.this, FavoritePlaceListActivity.class);
         startActivity(intent);
     }
-
 
 
 }
