@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/custom_app_bar_height"
+        android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -29,34 +29,8 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <!--<android.support.constraint.ConstraintLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-
-            <!--<de.hdodenhof.circleimageview.CircleImageView-->
-            <!--android:id="@+id/iv_profile_pembeli"-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="100dp"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginTop="56dp"-->
-            <!--android:src="@mipmap/ic_launcher_round"-->
-            <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintRight_toRightOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent" />-->
-            <!---->
-
-            <!--</android.support.constraint.ConstraintLayout>-->
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@color/black" />
-
-
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_profile_pembeli_scrolling" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -65,5 +39,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <include layout="@layout/content_profile_pembeli_scrolling" />
 
 </android.support.design.widget.CoordinatorLayout>

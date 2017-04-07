@@ -15,6 +15,10 @@ public class BaseUser {
     private String tipeUser; // pembeli || penjual
     // private Uri fotoProfil;
 
+    public BaseUser() {
+
+    }
+
     public BaseUser(String uid, String nama, String email, String tipeUser) {
         this.uid = uid;
         this.nama = nama;
@@ -22,7 +26,7 @@ public class BaseUser {
         this.tipeUser = tipeUser;
     }
 
-    protected String getUid() {
+    public String getUid() {
         return uid;
     }
 
@@ -34,7 +38,7 @@ public class BaseUser {
         return email;
     }
 
-    protected String getTipeUser() {
+    public String getTipeUser() {
         return tipeUser;
     }
 }

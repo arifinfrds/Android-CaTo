@@ -85,6 +85,10 @@
         <activity
             android:name=".ProfilePembeliScrollingActivity"
             android:label="@string/title_activity_profile_pembeli_scrolling"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EditProfilePembeliActivity"
+            android:label="@string/title_activity_edit_profile_pembeli"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
