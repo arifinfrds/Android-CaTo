@@ -51,15 +51,15 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         etEmail = (EditText) findViewById(R.id.et_email);
         etPassword = (EditText) findViewById(R.id.et_passowrd);
 
-        btnLoginFacebook = (Button) findViewById(R.id.btn_login_facebook);
-        btnLoginGoogle = (Button) findViewById(R.id.btn_login_google);
+//        btnLoginFacebook = (Button) findViewById(R.id.btn_login_facebook);
+//        btnLoginGoogle = (Button) findViewById(R.id.btn_login_google);
         btnSignIn = (Button) findViewById(R.id.btn_sign_in);
 
         btnCreateAccount = (Button) findViewById(R.id.btn_create_account);
         btnForgotPassword = (Button) findViewById(R.id.btn_forgot_password);
 
-        btnLoginFacebook.setOnClickListener(this);
-        btnLoginGoogle.setOnClickListener(this);
+//        btnLoginFacebook.setOnClickListener(this);
+//        btnLoginGoogle.setOnClickListener(this);
         btnSignIn.setOnClickListener(this);
         btnCreateAccount.setOnClickListener(this);
         btnForgotPassword.setOnClickListener(this);
@@ -120,12 +120,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_login_facebook:
-                Toast.makeText(this, "btn_login_facebook", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.btn_login_google:
-                Toast.makeText(this, "btn_login_google", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.btn_login_facebook:
+//                Toast.makeText(this, "btn_login_facebook", Toast.LENGTH_SHORT).show();
+//                break;
+//            case R.id.btn_login_google:
+//                Toast.makeText(this, "btn_login_google", Toast.LENGTH_SHORT).show();
+//                break;
             case R.id.btn_sign_in:
                 handleSignIn();
                 break;
