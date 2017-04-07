@@ -14,11 +14,11 @@
         android:layout_height="96dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="42dp"
         android:src="@drawable/logopng"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="39dp" />
 
     <EditText
         android:id="@+id/et_store_name"
@@ -106,7 +106,7 @@
         android:layout_height="60dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="35dp"
         android:background="@color/colorPrimary"
         android:text="NEXT"
         android:textColor="@color/white"
