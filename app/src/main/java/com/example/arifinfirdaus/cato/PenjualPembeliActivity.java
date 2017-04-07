@@ -154,6 +154,7 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
                         } else if (tipeBu.equals("penjual")) {
                             hideProgressDialog();
                             Toast.makeText(PenjualPembeliActivity.this, "toPenjualActivity dari uidDataSnapshot", Toast.LENGTH_SHORT).show();
+                            toMainPenjualActivity();
                         }
                     } else {
                         hideProgressDialog();
@@ -169,6 +170,7 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
 
         return false;
     }
+
 
     @Override
     public void onBackPressed() {
@@ -233,6 +235,12 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
 
     private void toMainActivity() {
         Intent intent = new Intent(PenjualPembeliActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+
+    private void toMainPenjualActivity() {
+        Intent intent = new Intent(PenjualPembeliActivity.this, MainPenjualActivity.class);
         startActivity(intent);
     }
 
