@@ -88,19 +88,32 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                BaseUser baseUser = dataSnapshot.getValue(BaseUser.class);
 
-                // Toast.makeText(PenjualPembeliActivity.this, dataSnapshot.toString(), Toast.LENGTH_SHORT).show();
+                if (!dataSnapshot.exists()) {
+                    Log.d("asdasd", "!dataSnapshot.exists()) : " + dataSnapshot.exists());
 
-                Log.d("asdasd", "current tipeUser : " + baseUser.getTipeUser());
+                } else {
+                    Log.d("asdasd", "dataSnapshot : " + dataSnapshot);
+                    BaseUser baseUser = dataSnapshot.getValue(BaseUser.class);
 
-                // loop untuk cek uid user sekarang sudah terbuat atau belum
+                    // Toast.makeText(PenjualPembeliActivity.this, dataSnapshot.toString(), Toast.LENGTH_SHORT).show();
 
-                fetchCurrentUIDFromDatabase(baseUser);
+                    Log.d("asdasd", "baseUser : " + baseUser);
+
+                    Log.d("asdasd", "current tipeUser : " + baseUser.getTipeUser());
+
+                    // loop untuk cek uid user sekarang sudah terbuat atau belum
+
+                    fetchCurrentUIDFromDatabase(baseUser);
+                }
+
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.d("asdasd", "databaseError : " + databaseError);
+
             }
         });
     }
