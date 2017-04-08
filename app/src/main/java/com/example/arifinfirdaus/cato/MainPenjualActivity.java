@@ -23,10 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainPenjualActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-
     private FloatingActionButton fabAdd;
-    private FloatingActionButton fabAddFriend;
-    private FloatingActionButton fabCreateGroup;
+    private FloatingActionButton fabEditDecription;
+    private FloatingActionButton fabAddPhoto;
     private FloatingActionButton fab_edit_cover_photo;
 
     private Animation fabOpen;
@@ -36,7 +35,6 @@ public class MainPenjualActivity extends AppCompatActivity
 
     private boolean isFabAlreadyOpen = false;
 
-    private FrameLayout flFabFocus;
     private Animation flOpen;
     private Animation flClose;
 
@@ -62,8 +60,8 @@ public class MainPenjualActivity extends AppCompatActivity
 
     private void setupFab() {
         fabAdd = (FloatingActionButton) findViewById(R.id.fab_home_add);
-        fabAddFriend = (FloatingActionButton) findViewById(R.id.fab_edit_description);
-        fabCreateGroup = (FloatingActionButton) findViewById(R.id.fab_add_photo);
+        fabEditDecription = (FloatingActionButton) findViewById(R.id.fab_edit_description);
+        fabAddPhoto = (FloatingActionButton) findViewById(R.id.fab_add_photo);
         fab_edit_cover_photo = (FloatingActionButton) findViewById(R.id.fab_edit_cover_photo);
 
         fabOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
@@ -72,8 +70,8 @@ public class MainPenjualActivity extends AppCompatActivity
         fabRotateAntiClockwise = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_anticlockwise);
 
         fabAdd.setOnClickListener(this);
-        fabAddFriend.setOnClickListener(this);
-        fabCreateGroup.setOnClickListener(this);
+        fabEditDecription.setOnClickListener(this);
+        fabAddPhoto.setOnClickListener(this);
         fabAdd.setOnClickListener(this);
         fab_edit_cover_photo.setOnClickListener(this);
 
@@ -156,15 +154,14 @@ public class MainPenjualActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_home_add:
-
                 // klo buka, maka di close
                 if (this.isFabAlreadyOpen) {
-                    fabAddFriend.startAnimation(fabClose);
-                    fabCreateGroup.startAnimation(fabClose);
+                    fabEditDecription.startAnimation(fabClose);
+                    fabAddPhoto.startAnimation(fabClose);
                     fab_edit_cover_photo.startAnimation(fabClose);
                     fabAdd.startAnimation(fabRotateAntiClockwise);
-                    fabAddFriend.setClickable(false);
-                    fabCreateGroup.setClickable(false);
+                    fabEditDecription.setClickable(false);
+                    fabAddPhoto.setClickable(false);
                     fab_edit_cover_photo.setClickable(false);
                     fabAdd.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
                     isFabAlreadyOpen = false;
@@ -172,11 +169,11 @@ public class MainPenjualActivity extends AppCompatActivity
                 } else {
                     // di buka (expand)
                     fab_edit_cover_photo.startAnimation(fabOpen);
-                    fabCreateGroup.startAnimation(fabOpen);
-                    fabAddFriend.startAnimation(fabOpen);
+                    fabAddPhoto.startAnimation(fabOpen);
+                    fabEditDecription.startAnimation(fabOpen);
                     fabAdd.startAnimation(fabRotateClockwise);
-                    fabCreateGroup.setClickable(true);
-                    fabAddFriend.setClickable(true);
+                    fabAddPhoto.setClickable(true);
+                    fabEditDecription.setClickable(true);
                     fab_edit_cover_photo.setClickable(true);
                     fabAdd.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.fab_home_pressed)));
                     isFabAlreadyOpen = true;
@@ -187,45 +184,42 @@ public class MainPenjualActivity extends AppCompatActivity
                 Toast.makeText(this, "add friend", Toast.LENGTH_SHORT).show();
 
                 // tutup fab
-                fabAddFriend.startAnimation(fabClose);
-                fabCreateGroup.startAnimation(fabClose);
+                fab_edit_cover_photo.startAnimation(fabClose);
+                fab_edit_cover_photo.setClickable(false);
+                fabEditDecription.startAnimation(fabClose);
+                fabAddPhoto.startAnimation(fabClose);
                 fabAdd.startAnimation(fabRotateAntiClockwise);
-                fabAddFriend.setClickable(false);
-                fabCreateGroup.setClickable(false);
+                fabEditDecription.setClickable(false);
+                fabAddPhoto.setClickable(false);
                 fabAdd.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 isFabAlreadyOpen = false;
-                Toast.makeText(this, "framelayout clicked", Toast.LENGTH_SHORT).show();
-
                 break;
 
             case R.id.fab_add_photo:
-                Toast.makeText(this, "create group", Toast.LENGTH_SHORT).show();
 
                 // tutup fab
-                fabAddFriend.startAnimation(fabClose);
-                fabCreateGroup.startAnimation(fabClose);
+                fab_edit_cover_photo.startAnimation(fabClose);
+                fab_edit_cover_photo.setClickable(false);
+                fabEditDecription.startAnimation(fabClose);
+                fabAddPhoto.startAnimation(fabClose);
                 fabAdd.startAnimation(fabRotateAntiClockwise);
-                fabAddFriend.setClickable(false);
-                fabCreateGroup.setClickable(false);
+                fabEditDecription.setClickable(false);
+                fabAddPhoto.setClickable(false);
                 fabAdd.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 isFabAlreadyOpen = false;
-                Toast.makeText(this, "framelayout clicked", Toast.LENGTH_SHORT).show();
-
                 break;
 
             case R.id.fab_edit_cover_photo:
                 // tutup fab
                 fab_edit_cover_photo.startAnimation(fabClose);
-                fabAddFriend.startAnimation(fabClose);
-                fabCreateGroup.startAnimation(fabClose);
+                fabEditDecription.startAnimation(fabClose);
+                fabAddPhoto.startAnimation(fabClose);
                 fabAdd.startAnimation(fabRotateAntiClockwise);
-                fabAddFriend.setClickable(false);
+                fabEditDecription.setClickable(false);
                 fab_edit_cover_photo.setClickable(false);
-                fabCreateGroup.setClickable(false);
+                fabAddPhoto.setClickable(false);
                 fabAdd.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 isFabAlreadyOpen = false;
-                Toast.makeText(this, "framelayout clicked", Toast.LENGTH_SHORT).show();
-
                 break;
         }
 

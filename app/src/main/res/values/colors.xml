@@ -44,4 +44,10 @@
     <color name="fab_home_pressed">@color/A400</color>
     <color name="A400">#F50057</color>
 
+    <color name="orange_500">#FF9100</color>
+    <color name="yellow_A700">#FFD600</color>
+    <color name="red_A700">#D50000</color>
+    <color name="light_blue_A400">#00B0FF</color>
+
+
 </resources>

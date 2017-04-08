@@ -1,5 +1,6 @@
 package com.example.arifinfirdaus.cato;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    private ProgressDialog mProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void handleSignUp() {
+
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
 
@@ -58,6 +62,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             etEmail.setError("");
             etPassword.setError("");
         } else {
+            showProgressDialog();
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -69,7 +74,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
+                            hideProgressDialog();
                             if (!task.isSuccessful()) {
+                                hideProgressDialog();
                                 Toast.makeText(SignUpActivity.this, "auth failed",
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -77,6 +84,23 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             // ...
                         }
                     });
+        }
+    }
+
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Creating user and Sign in....");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
         }
     }
 }

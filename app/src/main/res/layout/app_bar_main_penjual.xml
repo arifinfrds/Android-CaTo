@@ -23,7 +23,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
     <include layout="@layout/content_main_penjual" />
 
     <android.support.design.widget.FloatingActionButton
@@ -34,10 +33,10 @@
         android:layout_marginBottom="260dp"
         android:layout_marginRight="16dp"
         android:visibility="invisible"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/orange_500"
         app:borderWidth="0dp"
         app:elevation="6dp"
-        app:srcCompat="@drawable/ic_person_black_24dp" />
+        app:srcCompat="@drawable/cover" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_edit_description"
@@ -47,10 +46,10 @@
         android:layout_marginBottom="180dp"
         android:layout_marginRight="16dp"
         android:visibility="invisible"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/yellow_A400"
         app:borderWidth="0dp"
         app:elevation="6dp"
-        app:srcCompat="@drawable/ic_person_black_24dp" />
+        app:srcCompat="@drawable/pensil_saja" />
 
 
     <android.support.design.widget.FloatingActionButton
@@ -61,11 +60,10 @@
         android:layout_marginBottom="100dp"
         android:layout_marginRight="16dp"
         android:visibility="invisible"
-        app:backgroundTint="@color/colorPrimaryDark"
+        app:backgroundTint="@color/A400"
         app:borderWidth="0dp"
         app:elevation="6dp"
-        app:srcCompat="@drawable/ic_bookmark_white_24dp" />
-
+        app:srcCompat="@drawable/camera_saja" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_home_add"
@@ -76,7 +74,8 @@
         android:layout_marginBottom="16dp"
         app:borderWidth="0dp"
         app:elevation="6dp"
-        app:srcCompat="@drawable/ic_bookmark_white_24dp" />
+        android:backgroundTint="@color/light_blue_A400"
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 
     <!--<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"-->
     <!--android:id="@+id/framelayout_fab_focus_clicked"-->

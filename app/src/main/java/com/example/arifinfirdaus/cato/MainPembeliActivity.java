@@ -293,7 +293,6 @@ public class MainPembeliActivity extends AppCompatActivity implements
         }
     }
 
-
     private void goToLocation(int lat, int lng) {
         LatLng destinationLatLng = new LatLng(lat, lng);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(destinationLatLng);
