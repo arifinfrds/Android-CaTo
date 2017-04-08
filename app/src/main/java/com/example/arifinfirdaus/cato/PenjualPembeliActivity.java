@@ -158,7 +158,7 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
                         }
                     } else {
                         hideProgressDialog();
-                        Toast.makeText(PenjualPembeliActivity.this, "You have not choose user type yet. Please choose one below.", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(PenjualPembeliActivity.this, "You have not choose user type yet. Please choose one below.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
