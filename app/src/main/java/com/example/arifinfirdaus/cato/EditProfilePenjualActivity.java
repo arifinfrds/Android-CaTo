@@ -140,7 +140,7 @@ public class EditProfilePenjualActivity extends AppCompatActivity implements Vie
             // userRef.child(firebaseUser.getUid()).updateChildren(updatedReview);
             // userRef.child(userRef.getKey()).setValue(baseUser);
 
-            // databaseReference.child(firebaseUser.getUid()).update
+            // databaseReference.child(firebase1User.getUid()).update
             Log.w("edit_profile_penjual", "firebaseUser.getUid(): " + firebaseUser.getUid());
             Log.w("edit_profile_penjual", "firebaseUser.firebaseAuth.getCurrentUser().getUid(): " + firebaseAuth.getCurrentUser().getUid());
             Log.w("edit_profile_penjual", "baseUser: " + baseUser);
