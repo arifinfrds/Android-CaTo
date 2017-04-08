@@ -113,6 +113,7 @@
     <string name="title_activity_edit_profile_pembeli">EditProfilePembeliActivity</string>
     <string name="loading_fetching_user_type">Fetching user type...</string>
     <string name="title_activity_main_penjual">MainPenjualActivity</string>
+    <string name="title_activity_edit_profile_penjual">EditProfilePenjualActivity</string>
 
 
 </resources>

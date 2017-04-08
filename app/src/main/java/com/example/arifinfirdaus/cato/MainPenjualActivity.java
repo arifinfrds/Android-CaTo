@@ -1,5 +1,6 @@
 package com.example.arifinfirdaus.cato;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -193,6 +193,7 @@ public class MainPenjualActivity extends AppCompatActivity
                 fabAddPhoto.setClickable(false);
                 fabAdd.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 isFabAlreadyOpen = false;
+                toEditProfilePenjualActivity();
                 break;
 
             case R.id.fab_add_photo:
@@ -223,6 +224,11 @@ public class MainPenjualActivity extends AppCompatActivity
                 break;
         }
 
+    }
+
+    private void toEditProfilePenjualActivity() {
+        Intent intent = new Intent(MainPenjualActivity.this, EditProfilePenjualActivity.class);
+        startActivity(intent);
     }
 
 
