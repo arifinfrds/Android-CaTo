@@ -153,7 +153,7 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
                             toMainActivity();
                         } else if (tipeBu.equals("penjual")) {
                             hideProgressDialog();
-                            Toast.makeText(PenjualPembeliActivity.this, "toPenjualActivity dari uidDataSnapshot", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(PenjualPembeliActivity.this, "toPenjualActivity dari uidDataSnapshot", Toast.LENGTH_SHORT).show();
                             toMainPenjualActivity();
                         }
                     } else {
@@ -187,7 +187,6 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
                 toMainActivity();
                 break;
             case R.id.btn_penjual:
-                Toast.makeText(this, "btn_penjual", Toast.LENGTH_SHORT).show();
                 tipeUser = "penjual";
                 saveUserPenjualInfo(tipeUser);
                 break;
@@ -206,7 +205,10 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
 
         final DatabaseReference userRef = databaseReference.child("user");
         userRef.push().setValue(pembeli);
+        firebasePushIdKey = userRef.push().getKey();
     }
+
+    public static String firebasePushIdKey;
 
     private void saveUserPenjualInfo(String tipeUser) {
         final BaseUser penjual = new Penjual(
@@ -217,6 +219,16 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
 
         final DatabaseReference userRef = databaseReference.child("user");
         userRef.push().setValue(penjual);
+
+//        DatabaseReference userRefPush = userRef.push();
+//        userRef.setValue(penjual);
+//        firebasePushIdKey = userRefPush.getKey();
+//
+//        Log.w("edit_profile_penjual", "firebasePushIdKey  : " + firebasePushIdKey);
+//        Log.w("edit_profile_penjual", "firebasePushIdKey5 : " + userRefPush.getKey());
+//        Log.w("edit_profile_penjual", "firebasePushIdKey6 : " + userRefPush.getKey());
+
+
     }
 
     private void toSignInActivity() {

@@ -34,7 +34,7 @@ public class BaseUser {
         return nama;
     }
 
-    protected String getEmail() {
+    public String getEmail() {
         return email;
     }
 

@@ -51,7 +51,7 @@ public class Penjual extends BaseUser {
     }
 
     @Override
-    protected String getEmail() {
+    public String getEmail() {
         return super.getEmail();
     }
 

@@ -38,12 +38,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
 import com.akexorcist.googledirection.constant.AvoidType;
 import com.akexorcist.googledirection.model.Direction;
+import com.example.arifinfirdaus.cato.Model.BaseUser;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -64,7 +66,14 @@ import java.util.List;
 
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import org.w3c.dom.Text;
 
 public class MainPembeliActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -81,6 +90,11 @@ public class MainPembeliActivity extends AppCompatActivity implements
 
     private MaterialSearchView searchView;
     private String querySearch;
+
+    private TextView tv_nama_user_main;
+    private TextView tv_tipe_user_main;
+
+    private DatabaseReference databaseReference;
 
     // MARK: - AppCompatActivity
     @Override
@@ -115,6 +129,33 @@ public class MainPembeliActivity extends AppCompatActivity implements
         searchView.setOnQueryTextListener(this);
         searchView.setOnSearchViewListener(this);
 
+        tv_nama_user_main = (TextView) findViewById(R.id.tv_nama_user_main);
+        tv_tipe_user_main = (TextView) findViewById(R.id.tv_tipe_user_main);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        fetchUserInfo();
+    }
+
+    private void fetchUserInfo() {
+
+        DatabaseReference userRef = databaseReference.child("user");
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.w("asdasd", "dataSnapshot : " + dataSnapshot);
+                Log.w("asdasd", "dataSnapshot child email: " + dataSnapshot.child("email"));
+                Log.w("asdasd", "dataSnapshot child email toString: " + dataSnapshot.child("email").toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+//        String key = userRef.child("tipeUser").getKey();
+//        Log.w("asdasd", "userRef.child(\"tipeUser\").getKey() : " + key);
     }
 
     public void geoLocate(View view) throws IOException {

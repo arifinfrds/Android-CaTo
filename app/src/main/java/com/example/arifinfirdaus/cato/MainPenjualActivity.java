@@ -223,7 +223,6 @@ public class MainPenjualActivity extends AppCompatActivity
                 isFabAlreadyOpen = false;
                 break;
         }
-
     }
 
     private void toEditProfilePenjualActivity() {

@@ -12,7 +12,7 @@
     <string name="map_type_terrain">Terrain</string>
     <string name="map_type_satellite">Satellite</string>
     <string name="map_type_hybrid">Hybrid</string>
-    <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="title_activity_sign_in">@string/app_name</string>
     <string name="title_activity_favorite_place">Favorite Place</string>
     <string name="title_item_list">Favorite Place</string>
     <string name="title_item_detail">Item Detail</string>
@@ -113,7 +113,7 @@
     <string name="title_activity_edit_profile_pembeli">EditProfilePembeliActivity</string>
     <string name="loading_fetching_user_type">Fetching user type...</string>
     <string name="title_activity_main_penjual">MainPenjualActivity</string>
-    <string name="title_activity_edit_profile_penjual">EditProfilePenjualActivity</string>
+    <string name="title_activity_edit_profile_penjual">Edit Toko</string>
 
 
 </resources>
