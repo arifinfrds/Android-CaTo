@@ -10,5 +10,13 @@ public interface Const {
 
         String NAMA_USER = "NAMA_USER";
 
+        interface TIPE_USER {
+
+            String PEMBELI = "pembeli";
+
+            String PENJUAL = "penjual";
+
+        }
+
     }
 }
