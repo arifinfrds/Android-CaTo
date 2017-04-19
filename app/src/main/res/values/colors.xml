@@ -48,6 +48,7 @@
     <color name="yellow_A700">#FFD600</color>
     <color name="red_A700">#D50000</color>
     <color name="light_blue_A400">#00B0FF</color>
+    <color name="disable_text">#1E000000</color>
 
 
 </resources>

@@ -11,6 +11,9 @@ public class Pembeli extends BaseUser {
     // private TempatFavorit[] tempatFavorits;
     private ArrayList<TempatFavorit> tempatFavorits;
 
+    public Pembeli() {
+
+    }
 
     public Pembeli(String uid, String nama, String email, String tipeUser, ArrayList<TempatFavorit> tempatFavorits) {
         super(uid, nama, email, tipeUser);

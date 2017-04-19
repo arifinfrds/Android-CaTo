@@ -110,7 +110,7 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="title_activity_edit_profile_pembeli">EditProfilePembeliActivity</string>
+    <string name="title_activity_edit_profile_pembeli">Edit Profile Pembeli</string>
     <string name="loading_fetching_user_type">Fetching user type...</string>
     <string name="title_activity_main_penjual">MainPenjualActivity</string>
     <string name="title_activity_edit_profile_penjual">Edit Toko</string>

@@ -52,7 +52,6 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -72,6 +71,7 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
                             PenjualPembeliActivity.this,
                             "database user belum ada. Silahkan pilih tipe user",
                             Toast.LENGTH_SHORT).show();
+                    return;
                 } else {
                     handleNavigasiTipeUser(dataSnapshot);
                 }
@@ -123,19 +123,26 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
         if (tipeUser == Const.KEY.TIPE_USER.PEMBELI) {
             final BaseUser pembeli = new Pembeli(
                     firebaseUser.getUid(),
-                    firebaseUser.getDisplayName(),
+                    Const.KEY.NOT_SET,
                     firebaseUser.getEmail(),
                     tipeUser,
                     null);
+
             final DatabaseReference userRef = databaseReference.child("user");
             userRef.child(firebaseUser.getUid()).setValue(pembeli);
 
         } else {
             final BaseUser penjual = new Penjual(
                     firebaseUser.getUid(),
-                    firebaseUser.getDisplayName(),
+                    Const.KEY.NOT_SET,
                     firebaseUser.getEmail(),
-                    tipeUser, null, null, null, null, null, null);
+                    tipeUser,
+                    Const.KEY.NOT_SET,
+                    Const.KEY.NOT_SET,
+                    Const.KEY.NOT_SET,
+                    Const.KEY.NOT_SET,
+                    null,
+                    null);
 
             final DatabaseReference userRef = databaseReference.child("user");
             userRef.child(firebaseUser.getUid()).setValue(penjual);
