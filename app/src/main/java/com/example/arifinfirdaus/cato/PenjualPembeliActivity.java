@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class PenjualPembeliActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
+public class PenjualPembeliActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnPenjual;
     private Button btnPembeli;
@@ -46,133 +46,34 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
         btnPenjual.setOnClickListener(this);
         btnPembeli.setOnClickListener(this);
 
-        btnPembeli.setOnLongClickListener(this);
-
         databaseReference = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
     }
 
-    public void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading_fetching_user_type));
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    public void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        cekTipeUser();
+        cekUserType();
     }
 
-    private void cekTipeUser() {
+    private void cekUserType() {
         showProgressDialog();
-
-        // get userRef
-        final DatabaseReference userRef = databaseReference.child("user");
-        // System.out.println(firebaseUser.getUid());
-        Log.d("asdasd", "current UID : " + firebaseUser.getUid());
-        Log.d("asdasd", "current email : " + firebaseUser.getEmail());
-
-        userRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                if (!dataSnapshot.exists()) {
-                    Log.d("asdasd", "!dataSnapshot.exists()) : " + dataSnapshot.exists());
-
-                } else {
-                    Log.d("asdasd", "dataSnapshot : " + dataSnapshot);
-                    BaseUser baseUser = dataSnapshot.getValue(BaseUser.class);
-
-                    // Toast.makeText(PenjualPembeliActivity.this, dataSnapshot.toString(), Toast.LENGTH_SHORT).show();
-
-                    Log.d("asdasd", "baseUser : " + baseUser);
-
-                    Log.d("asdasd", "current tipeUser : " + baseUser.getTipeUser());
-
-                    // loop untuk cek uid user sekarang sudah terbuat atau belum
-
-                    fetchCurrentUIDFromDatabase(baseUser);
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("asdasd", "databaseError : " + databaseError);
-
-            }
-        });
-    }
-
-    private boolean fetchCurrentUIDFromDatabase(final BaseUser baseUser) {
-
-        // cek uid apa sudah ada di database atau blm
+        // cek user db ada atau tidak
         DatabaseReference userRef = databaseReference.child("user");
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                // Post newPost = dataSnapshot.getValue(Post.class);
-                // BaseUser bu = dataSnapshot.getValue(BaseUser.class);
-                String tipe = baseUser.getTipeUser();
-                Log.w("asdasd", "onDataChange tipe: " + tipe);
-
-                Log.w("asdasd", "onDataChange dataSnapshot: " + dataSnapshot);
-                // BaseUser baseUser = dataSnapshot.getValue(dataSnapshot.getClass());
-
-                // cek apakah uid current user ada pada databse. klo gk ada, set tipe baru.
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Log.d("asdasd", "snapshot.toString : " + snapshot.toString());
-                    Log.i("asdasd", "snapshot : " + snapshot);
-                    Log.i("asdasd", "snapshot : " + snapshot);
-                    boolean ketemu = false;
-                    String uidDataSnaphot = String.valueOf(snapshot.getValue());
-                    Log.w("asdasd", "uidDataSnaphot String.valueOf : " + uidDataSnaphot);
-
-                    final String currentUID = firebaseUser.getUid();
-                    BaseUser bu = snapshot.getValue(BaseUser.class);
-
-                    Log.e("asdasd", "currentUID                 : " + currentUID); // pembanding
-                    Log.e("asdasd", "baseUser.getUid()          : " + baseUser.getUid());
-                    Log.e("asdasd", "uidDataSnaphot             : " + uidDataSnaphot);
-                    Log.e("asdasd", "snapshot.getKey()          : " + snapshot.getKey());
-                    Log.e("asdasd", "snapshot.getValue()        : " + snapshot.getValue());
-                    Log.e("asdasd", "bu.getUid()                : " + bu.getUid());
-
-                    if (currentUID.equals(bu.getUid())) {
-                        Log.w("asdasd", "if currentUID.equals(bu.getUid()) : " + bu.getUid());
-
-                        // seleksi kalo true (user terdaftar dgn tipe user tertentu, maka ke user screen
-                        String tipeBu = bu.getTipeUser();
-
-                        if (tipeBu.equals("pembeli")) {
-                            hideProgressDialog();
-                            Log.w("asdasd", "if uidDataSnaphot.equals(pembeli) : " + uidDataSnaphot);
-                            // Toast.makeText(PenjualPembeliActivity.this, "uidDataSnaphot = pembeli", Toast.LENGTH_SHORT).show();
-                            toMainActivity();
-                        } else if (tipeBu.equals("penjual")) {
-                            hideProgressDialog();
-                            // Toast.makeText(PenjualPembeliActivity.this, "toPenjualActivity dari uidDataSnapshot", Toast.LENGTH_SHORT).show();
-                            toMainPenjualActivity();
-                        }
-                    } else {
-                        hideProgressDialog();
-                        // Toast.makeText(PenjualPembeliActivity.this, "You have not choose user type yet. Please choose one below.", Toast.LENGTH_SHORT).show();
-                    }
+                if (!dataSnapshot.exists()) {
+                    hideProgressDialog();
+                    Toast.makeText(
+                            PenjualPembeliActivity.this,
+                            "database user belum ada. Silahkan pilih tipe user",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    handleNavigasiTipeUser(dataSnapshot);
                 }
             }
 
@@ -180,10 +81,20 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-        return false;
     }
 
+    private void handleNavigasiTipeUser(DataSnapshot dataSnapshot) {
+        // ambil tipenya
+        BaseUser baseUser = dataSnapshot.getValue(BaseUser.class);
+        String tipeUser = baseUser.getTipeUser();
+        hideProgressDialog();
+        // navigasi
+        if (tipeUser.equals(Const.KEY.TIPE_USER.PEMBELI)) {
+            toMainPembeliActivity();
+        } else {
+            toMainPenjualActivity();
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -195,70 +106,44 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_pembeli:
-                tipeUser = "pembeli";
-                saveUserPembeliInfo(tipeUser);
-                toMainActivity();
+                tipeUser = Const.KEY.TIPE_USER.PEMBELI;
+                createUserDatabase(tipeUser);
+                toMainPembeliActivity();
                 break;
             case R.id.btn_penjual:
-                tipeUser = "penjual";
-                saveUserPenjualInfo(tipeUser);
+                tipeUser = Const.KEY.TIPE_USER.PENJUAL;
+                createUserDatabase(tipeUser);
                 break;
             default:
                 break;
         }
     }
 
-    private void saveUserPembeliInfo(String tipeUser) {
-        final BaseUser pembeli = new Pembeli(
-                firebaseUser.getUid(),
-                firebaseUser.getDisplayName(),
-                firebaseUser.getEmail(),
-                tipeUser,
-                null);
+    private void createUserDatabase(String tipeUser) {
+        if (tipeUser == Const.KEY.TIPE_USER.PEMBELI) {
+            final BaseUser pembeli = new Pembeli(
+                    firebaseUser.getUid(),
+                    firebaseUser.getDisplayName(),
+                    firebaseUser.getEmail(),
+                    tipeUser,
+                    null);
+            final DatabaseReference userRef = databaseReference.child("user");
+            userRef.child(firebaseUser.getUid()).setValue(pembeli);
 
-        final DatabaseReference userRef = databaseReference.child("user");
-        userRef.push().setValue(pembeli);
-        firebasePushIdKey = userRef.push().getKey();
-    }
+        } else {
+            final BaseUser penjual = new Penjual(
+                    firebaseUser.getUid(),
+                    firebaseUser.getDisplayName(),
+                    firebaseUser.getEmail(),
+                    tipeUser, null, null, null, null, null, null);
 
-    public static String firebasePushIdKey;
-
-    private void saveUserPenjualInfo(String tipeUser) {
-        final BaseUser penjual = new Penjual(
-                firebaseUser.getUid(),
-                firebaseUser.getDisplayName(),
-                firebaseUser.getEmail(),
-                tipeUser, null, null, null, null, null, null);
-
-        final DatabaseReference userRef = databaseReference.child("user");
-        userRef.push().setValue(penjual);
-
-//        DatabaseReference userRefPush = userRef.push();
-//        userRef.setValue(penjual);
-//        firebasePushIdKey = userRefPush.getKey();
-//
-//        Log.w("edit_profile_penjual", "firebasePushIdKey  : " + firebasePushIdKey);
-//        Log.w("edit_profile_penjual", "firebasePushIdKey5 : " + userRefPush.getKey());
-//        Log.w("edit_profile_penjual", "firebasePushIdKey6 : " + userRefPush.getKey());
-
-
-    }
-
-    private void toSignInActivity() {
-        Intent intent = new Intent(PenjualPembeliActivity.this, SignInActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        int id = v.getId();
-        if (id == R.id.btn_pembeli) {
-            toMainActivity();
+            final DatabaseReference userRef = databaseReference.child("user");
+            userRef.child(firebaseUser.getUid()).setValue(penjual);
         }
-        return false;
+
     }
 
-    private void toMainActivity() {
+    private void toMainPembeliActivity() {
         Intent intent = new Intent(PenjualPembeliActivity.this, MainPembeliActivity.class);
         startActivity(intent);
     }
@@ -267,6 +152,21 @@ public class PenjualPembeliActivity extends AppCompatActivity implements View.On
     private void toMainPenjualActivity() {
         Intent intent = new Intent(PenjualPembeliActivity.this, MainPenjualActivity.class);
         startActivity(intent);
+    }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading_fetching_user_type));
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 
 
