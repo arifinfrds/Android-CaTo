@@ -34,7 +34,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +44,7 @@ import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
 import com.akexorcist.googledirection.constant.AvoidType;
 import com.akexorcist.googledirection.model.Direction;
-import com.example.arifinfirdaus.cato.Model.BaseUser;
+import com.example.arifinfirdaus.cato.Model.Pembeli;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,7 +55,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -66,14 +64,13 @@ import java.util.List;
 
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
-import org.w3c.dom.Text;
 
 public class MainPembeliActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -82,24 +79,28 @@ public class MainPembeliActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
         MaterialSearchView.OnQueryTextListener,
-        MaterialSearchView.SearchViewListener {
+        MaterialSearchView.SearchViewListener,
+        FirebaseNetworkCalls {
 
-    private GoogleMap googleMap;
+    private GoogleMap mGoogleMap;
+    private GoogleApiClient mGoogleApiClient;
+    private MaterialSearchView mMaterialSearchView;
+    private String mQuerySearch;
+    private TextView mTvNamaUserMain;
+    private TextView mTvTipeUserMain;
+    private DatabaseReference mDatabaseReference;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private String mTipeUser;
 
-    private GoogleApiClient googleApiClient;
-
-    private MaterialSearchView searchView;
-    private String querySearch;
-
-    private TextView tv_nama_user_main;
-    private TextView tv_tipe_user_main;
-
-    private DatabaseReference databaseReference;
+    private Marker mMarker;
 
     // MARK: - AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initFirebase();
 
         if (isGoogleServicesAvailable()) {
             Toast.makeText(this, "google service tersedia di device Anda", Toast.LENGTH_LONG).show();
@@ -123,44 +124,57 @@ public class MainPembeliActivity extends AppCompatActivity implements
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        searchView = (MaterialSearchView) findViewById(R.id.search_view);
-        searchView.setHint("Cari toko disini...");
-        searchView.setHintTextColor(Color.GRAY);
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnSearchViewListener(this);
+        View header = ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0);
+        mTvNamaUserMain = ((TextView) header.findViewById(R.id.tv_nama_user_main));
+        mTvTipeUserMain = ((TextView) header.findViewById(R.id.tv_tipe_user_main));
 
-        tv_nama_user_main = (TextView) findViewById(R.id.tv_nama_user_main);
-        tv_tipe_user_main = (TextView) findViewById(R.id.tv_tipe_user_main);
+        mMaterialSearchView = (MaterialSearchView) findViewById(R.id.search_view);
+        mMaterialSearchView.setHint("Cari toko disini...");
+        mMaterialSearchView.setHintTextColor(Color.GRAY);
+        mMaterialSearchView.setOnQueryTextListener(this);
+        mMaterialSearchView.setOnSearchViewListener(this);
+    }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchData();
+    }
 
+    @Override
+    public void fetchData() {
         fetchUserInfo();
     }
 
+    @Override
+    public void initFirebase() {
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+    }
+
+    // MARK : - Fetch user info with Firebase
     private void fetchUserInfo() {
+        mDatabaseReference.child("user").child(mFirebaseUser.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Pembeli pembeli = dataSnapshot.getValue(Pembeli.class);
+                        // setText
+                        mTvNamaUserMain.setText(pembeli.getEmail());
+                        mTvTipeUserMain.setText(pembeli.getTipeUser());
+                    }
 
-        DatabaseReference userRef = databaseReference.child("user");
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.w("asdasd", "dataSnapshot : " + dataSnapshot);
-                Log.w("asdasd", "dataSnapshot child email: " + dataSnapshot.child("email"));
-                Log.w("asdasd", "dataSnapshot child email toString: " + dataSnapshot.child("email").toString());
-            }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-//        String key = userRef.child("tipeUser").getKey();
-//        Log.w("asdasd", "userRef.child(\"tipeUser\").getKey() : " + key);
+                    }
+                });
     }
 
     public void geoLocate(View view) throws IOException {
         // String location = etCariToko.getText().toString();
-        String location = this.querySearch;
+        String location = this.mQuerySearch;
         Geocoder gc = new Geocoder(this);
         List<Address> list = gc.getFromLocationName(location, 1);
         Address address = list.get(0);
@@ -174,8 +188,6 @@ public class MainPembeliActivity extends AppCompatActivity implements
         float zoomLevel = 15;
         goToLocationZoom(lat, lng, zoomLevel);
     }
-
-    private Marker marker;
 
     public void geoLocate(String hasilSearch) throws IOException {
         String location = hasilSearch;
@@ -192,17 +204,17 @@ public class MainPembeliActivity extends AppCompatActivity implements
         float zoomLevel = 15;
         goToLocationZoom(lat, lng, zoomLevel);
 
-        // cek apakah sudah ada marker
-        if (marker != null) {
-            marker.remove();
+        // cek apakah sudah ada mMarker
+        if (mMarker != null) {
+            mMarker.remove();
         }
 
-        // add marker
+        // add mMarker
         MarkerOptions markerOptions = new MarkerOptions()
                 .title(address.getAddressLine(0))
                 .snippet("Buka jam 8 - 9 Pagi")
                 .position(new LatLng(lat, lng));
-        marker = googleMap.addMarker(markerOptions);
+        mMarker = mGoogleMap.addMarker(markerOptions);
 
 //        // modify
 //        // misal ambil 3 alamat
@@ -248,7 +260,7 @@ public class MainPembeliActivity extends AppCompatActivity implements
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
+     * we just add a mMarker near Sydney, Australia.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -257,7 +269,7 @@ public class MainPembeliActivity extends AppCompatActivity implements
     // MARK : - OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
+        this.mGoogleMap = googleMap;
         setupUserLocation();
         directionTest();
 
@@ -276,14 +288,14 @@ public class MainPembeliActivity extends AppCompatActivity implements
                 return;
             }
         }
-        googleMap.setMyLocationEnabled(true);
+        mGoogleMap.setMyLocationEnabled(true);
 
-//        googleApiClient = new GoogleApiClient.Builder(this)
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
 //                .addApi(LocationServices.API)
 //                .addConnectionCallbacks(this)
 //                .addOnConnectionFailedListener(this)
 //                .build();
-//        googleApiClient.connect();
+//        mGoogleApiClient.connect();
     }
 
 
@@ -306,7 +318,7 @@ public class MainPembeliActivity extends AppCompatActivity implements
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
     }
 
     // MARK : - GoogleApiClient.ConnectionCallbacks
@@ -330,7 +342,7 @@ public class MainPembeliActivity extends AppCompatActivity implements
             Toast.makeText(this, "Dapat lokasi Anda sekarang", Toast.LENGTH_SHORT).show();
             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latlng, 15f);
-            googleMap.animateCamera(cameraUpdate);
+            mGoogleMap.animateCamera(cameraUpdate);
         }
     }
 
@@ -340,16 +352,16 @@ public class MainPembeliActivity extends AppCompatActivity implements
 
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(destinationLatLng)
-                .title(googleMap.getCameraPosition().toString());
+                .title(mGoogleMap.getCameraPosition().toString());
 
-        googleMap.addMarker(markerOptions);
-        googleMap.moveCamera(cameraUpdate);
+        mGoogleMap.addMarker(markerOptions);
+        mGoogleMap.moveCamera(cameraUpdate);
     }
 
     private void goToLocationZoom(double lat, double lng, float zoomLevel) {
         LatLng destinationLatLng = new LatLng(lat, lng);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(destinationLatLng, zoomLevel);
-        googleMap.moveCamera(cameraUpdate);
+        mGoogleMap.moveCamera(cameraUpdate);
 
 
     }
@@ -362,11 +374,11 @@ public class MainPembeliActivity extends AppCompatActivity implements
     public boolean onQueryTextSubmit(String query) {
         //Do some magic
         Toast.makeText(MainPembeliActivity.this, "query : " + query, Toast.LENGTH_SHORT).show();
-        querySearch = query;
+        mQuerySearch = query;
         // geoLocate(query);
         if (!query.equals(null) || !query.equals("")) {
             try {
-                geoLocate(querySearch);
+                geoLocate(mQuerySearch);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -432,8 +444,8 @@ public class MainPembeliActivity extends AppCompatActivity implements
             drawer.closeDrawer(GravityCompat.START);
         }
 
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch();
+        if (mMaterialSearchView.isSearchOpen()) {
+            mMaterialSearchView.closeSearch();
         } else {
             super.onBackPressed();
         }
@@ -446,7 +458,7 @@ public class MainPembeliActivity extends AppCompatActivity implements
         getMenuInflater().inflate(R.menu.main, menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
+        mMaterialSearchView.setMenuItem(item);
 
         return true;
     }
@@ -464,16 +476,16 @@ public class MainPembeliActivity extends AppCompatActivity implements
                 Toast.makeText(this, "unsupported yet", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.map_type_normal:
-                googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 break;
             case R.id.map_type_terrain:
-                googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                mGoogleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
                 break;
             case R.id.map_type_satellite:
-                googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                mGoogleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                 break;
             case R.id.map_type_hybrid:
-                googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
                 break;
             default:
                 break;

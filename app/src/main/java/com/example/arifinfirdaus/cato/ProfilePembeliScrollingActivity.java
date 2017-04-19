@@ -2,6 +2,7 @@ package com.example.arifinfirdaus.cato;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -9,12 +10,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class ProfilePembeliScrollingActivity extends AppCompatActivity {
+import com.example.arifinfirdaus.cato.Model.Pembeli;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-    private TextView tv_nama_user;
+public class ProfilePembeliScrollingActivity extends AppCompatActivity implements FirebaseNetworkCalls {
+
+    private TextView mTvNamaUser;
+    private TextView mTvTipeUser;
+    private TextView mTvEmailuser;
+
+    private DatabaseReference mDatabaseReference;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+
+    private FloatingActionButton mFabEdit;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
 
 
     @Override
@@ -24,14 +43,18 @@ public class ProfilePembeliScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        initFirebase();
+
+        mFabEdit = (FloatingActionButton) findViewById(R.id.fab);
+        mFabEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                toEditProfilePembeliActivity();
             }
         });
+
+        mCollapsingToolbarLayout = ((CollapsingToolbarLayout) findViewById(R.id.toolbar_layout));
+
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -39,20 +62,59 @@ public class ProfilePembeliScrollingActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toEditProfilePembeliActivity();
-            }
-        });
 
-        tv_nama_user = (TextView) findViewById(R.id.tv_nama_user);
+        mTvNamaUser = (TextView) findViewById(R.id.tv_nama_user_profile_pembeli);
+        mTvTipeUser = (TextView) findViewById(R.id.tv_tipe_user_profile_pembeli);
+        mTvEmailuser = (TextView) findViewById(R.id.tv_email_user_profile_pembeli);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchData();
+    }
+
+    @Override
+    public void initFirebase() {
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+    }
+
+    @Override
+    public void fetchData() {
+        fetchUserData();
+    }
+
+    private void fetchUserData() {
+        mDatabaseReference.child("user").child(mFirebaseUser.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (!dataSnapshot.exists()) {
+                            Toast.makeText(ProfilePembeliScrollingActivity.this, "Database user tidak ada", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Pembeli pembeli = dataSnapshot.getValue(Pembeli.class);
+                            mCollapsingToolbarLayout.setTitle(pembeli.getNama());
+                            mTvNamaUser.setText(pembeli.getNama());
+                            mTvTipeUser.setText(pembeli.getTipeUser());
+                            mTvEmailuser.setText(pembeli.getEmail());
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
 
     // intent.putExtra(Const.KEY.NAMA_BARANG, tvNamaBarang.getText().toString());
     private void toEditProfilePembeliActivity() {
         Intent intent = new Intent(ProfilePembeliScrollingActivity.this, EditProfilePembeliActivity.class);
-        intent.putExtra(Const.KEY.NAMA_USER, tv_nama_user.getText().toString());
+        intent.putExtra(Const.KEY.NAMA_USER, mTvNamaUser.getText().toString());
         startActivity(intent);
 
     }

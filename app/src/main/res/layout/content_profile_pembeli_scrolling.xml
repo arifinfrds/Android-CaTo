@@ -24,7 +24,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_nama_user"
+            android:id="@+id/tv_nama_user_profile_pembeli"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/standart_components_margin"
@@ -48,13 +48,14 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_isi_harga"
+            android:id="@+id/tv_tipe_user_profile_pembeli"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/standart_components_margin"
             android:layout_marginTop="@dimen/standart_compomenents_margin_small"
             android:text="Pembeli"
-            android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@color/disable_text" />
 
         <View
             android:layout_width="wrap_content"
@@ -62,8 +63,7 @@
             android:layout_marginBottom="@dimen/standart_components_margin"
             android:layout_marginTop="@dimen/standart_components_margin"
             android:background="@color/divider_color" />
-
-
+        
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,13 +73,14 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_isi_unit"
+            android:id="@+id/tv_email_user_profile_pembeli"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/standart_components_margin"
             android:layout_marginTop="@dimen/standart_compomenents_margin_small"
             android:text="not set"
-            android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@color/disable_text" />
 
         <View
             android:layout_width="wrap_content"
